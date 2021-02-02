@@ -1,11 +1,11 @@
-//API
+//M2.5+ Earthquakes in Past 7 Days
 var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson"
 
 
 // Creating map object
-var myMap = L.map("map", {
+var myMap = L.map("mapid", {
     center: [34.0522, -118.2437],
-    zoom: 8
+    zoom: 3
   });
   
   // Adding tile layer
@@ -19,11 +19,21 @@ var myMap = L.map("map", {
   }).addTo(myMap);
   
   // Grab data with d3
-  d3.json(geoData).then(function(data) {
+  d3.json(url).then(function(quakeData) {
     
-    console.log(data);
+    console.log(quakeData);
+
+    L.geoJson(quakeData).addTo(myMap);
+
+    // quakeData.forEach(function(earthQuake){
+    //     var location = quakeData.coordinates;
+    //     if (location) {
+    //     L.marker([location.coordinates[0], location.coordinates[1]]).addTo(myMap);
+    //     }
+    // });
+
   
-    // // Add 
+    // // Add FROM EXAMPLE
     // L.geoJson(data, {
     //   onEachFeature: function (feature, layer) {
     //     layer.bindPopup('<h1>'+feature.properties.Coll_Day_N+'</h1><p>name: '+feature.properties.Hauler+'</p><p>contact: '+feature.properties.Phone_Num+'</p>');
