@@ -67,6 +67,8 @@ function getColor(quakeData) {
          d > -10   ? '#FED976' ;
 }
 
+//magnitude = circle size (radius)
+//depth = circle color (getColor)
 
 //GEOMARKER
   var geojsonMarkerOptions = {
