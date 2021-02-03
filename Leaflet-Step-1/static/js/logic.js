@@ -25,12 +25,11 @@ var myMap = L.map("mapid", {
 
     //L.geoJson(quakeData).addTo(myMap);
 
-  
     // // Add popup to each quake point
     L.geoJson(data, {
-      onEachFeature: function (feature, layer) {
+      onEachFeature: function (feature, marker) {
 
-        layer.bindPopup('<h1>'+feature.properties.mag'</h1><p>'+feature.properties.place'</p>');
+        marker.bindPopup('<h1>'+feature.properties.mag'</h1><p>'+feature.properties.place'</p>');
       }
     }).addTo(myMap);
   
