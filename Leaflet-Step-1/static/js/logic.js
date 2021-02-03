@@ -26,7 +26,7 @@ var myMap = L.map("mapid", {
     //L.geoJson(quakeData).addTo(myMap);
 
   
-    // // Add FROM EXAMPLE
+    // // Add popup to each quake point
     L.geoJson(data, {
       onEachFeature: function (feature, layer) {
 
@@ -37,28 +37,39 @@ var myMap = L.map("mapid", {
   });
 
   //LEGEND
-  var legend = L.control({position: 'bottomleft'});
-    legend.onAdd = function (map) {
+  var legend = L.control({position: 'bottomright'});
 
-    var div = L.DomUtil.create('div', 'info legend');
-    labels = ['<strong>Earthquake Depth</strong>'],
-    categories = ['-10-10','10-30','30-50','50-70','70-90','90+'];
+  legend.onAdd = function (map) {
+  
+      var div = L.DomUtil.create('div', 'info legend'),
+          grades = [-10, 10, 30, 50, 70, 90],
+          labels = [];
+  
+      // loop through our density intervals and generate a label with a colored square for each interval
+      for (var i = 0; i < location.coordinates[3]; i++) {
+          div.innerHTML +=
+              '<i style="background:' + getColor(coordinates[3][i] + 1) + '"></i> ' +
+              coordinates[3][i] + (coordinates[3][i + 1] ? '&ndash;' + coordinates[3][i + 1] + '<br>' : '+');
+      }
+  
+      return div;
+  };
+  
+  legend.addTo(map);
 
-    for (var i = 0; i < features.geometry.coordinates[2]; i++) {
-            div.innerHTML += 
-            labels.push(
-                '<i style="background:' + getColor(categories[i] + 1) + '"></i> ' +
-                (categories[i] ? categories[i] : '+'));
-        }
+//LEGEND COLOR
+function getColor(quakeData) {
+  return d.location.coordinates[3] > 1000 ? '#800026' :
+         d > 90  ? '#BD0026' :
+         d > 70  ? '#E31A1C' :
+         d > 50  ? '#FC4E2A' :
+         d > 30   ? '#FD8D3C' :
+         d > 10   ? '#FEB24C' :
+         d > -10   ? '#FED976' ;
+}
 
-        div.innerHTML = labels.join('<br>');
-    return div;
-};
 
-legend.addTo(map);
-
-  //var mag = feature.properties.mag
-
+//GEOMARKER
   var geojsonMarkerOptions = {
   radius: feature.properties.mag,
   //how do I loop through and pull out the magnitude and assign a color for the magnitude range?
