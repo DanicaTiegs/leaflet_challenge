@@ -23,22 +23,57 @@ var myMap = L.map("mapid", {
     
     console.log(quakeData);
 
-    L.geoJson(quakeData).addTo(myMap);
-
-    // quakeData.forEach(function(earthQuake){
-    //     var location = quakeData.coordinates;
-    //     if (location) {
-    //     L.marker([location.coordinates[0], location.coordinates[1]]).addTo(myMap);
-    //     }
-    // });
+    //L.geoJson(quakeData).addTo(myMap);
 
   
     // // Add FROM EXAMPLE
-    // L.geoJson(data, {
-    //   onEachFeature: function (feature, layer) {
-    //     layer.bindPopup('<h1>'+feature.properties.Coll_Day_N+'</h1><p>name: '+feature.properties.Hauler+'</p><p>contact: '+feature.properties.Phone_Num+'</p>');
-    //   }
-    // }).addTo(myMap);
+    L.geoJson(data, {
+      onEachFeature: function (feature, layer) {
+
+        layer.bindPopup('<h1>'+feature.properties.mag'</h1><p>'+feature.properties.place'</p>');
+      }
+    }).addTo(myMap);
   
   });
+
+  //LEGEND
+  var legend = L.control({position: 'bottomleft'});
+    legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend');
+    labels = ['<strong>Earthquake Depth</strong>'],
+    categories = ['-10-10','10-30','30-50','50-70','70-90','90+'];
+
+    for (var i = 0; i < features.geometry.coordinates[2]; i++) {
+            div.innerHTML += 
+            labels.push(
+                '<i style="background:' + getColor(categories[i] + 1) + '"></i> ' +
+                (categories[i] ? categories[i] : '+'));
+        }
+
+        div.innerHTML = labels.join('<br>');
+    return div;
+};
+
+legend.addTo(map);
+
+  //var mag = feature.properties.mag
+
+  var geojsonMarkerOptions = {
+  radius: feature.properties.mag,
+  //how do I loop through and pull out the magnitude and assign a color for the magnitude range?
+  //L.circle([location.coordinates[3]], {
+  //color: "green",
+  //fillColor: "green",
+ // fillOpacity: 0.75,
+  //radius: 500
+//}).addTo(myMap);
+
+  fillColor: "#ff7800",
+  color: "#000",
+  weight: 1,
+  opacity: 1,
+  fillOpacity: 0.8
+};
+
   
