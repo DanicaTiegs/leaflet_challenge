@@ -40,7 +40,7 @@ var myMap = L.map("mapid", {
     L.geoJson(quakeData, {
       onEachFeature: function (feature, marker) {
 
-        marker.bindPopup('<h1>Magnitude: '+feature.properties.mag+'</h1><p>Location: '+feature.properties.place+'</p>');
+        marker.bindPopup('<h2>Magnitude: '+feature.properties.mag+'</h2><p>Location: '+feature.properties.place+'</p>');
       },
         pointToLayer:function(feature, latlong) {
           return L.circleMarker(latlong)
