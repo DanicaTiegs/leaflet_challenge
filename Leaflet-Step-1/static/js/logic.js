@@ -29,63 +29,61 @@ var myMap = L.map("mapid", {
     L.geoJson(data, {
       onEachFeature: function (feature, marker) {
 
-        marker.bindPopup('<h1>'+feature.properties.mag'</h1><p>'+feature.properties.place'</p>');
+        marker.bindPopup('<h1>'+feature.properties.mag'</h1>''<p>'+feature.properties.place'</p>)');
       }
     }).addTo(myMap);
   
   });
 
-  //LEGEND
-  var legend = L.control({position: 'bottomright'});
+//   //LEGEND
+//   var legend = L.control({position: 'bottomright'});
 
-  legend.onAdd = function (map) {
+//   legend.onAdd = function (map) {
   
-      var div = L.DomUtil.create('div', 'info legend'),
-          grades = [-10, 10, 30, 50, 70, 90],
-          labels = [];
+//       var div = L.DomUtil.create('div', 'info legend'),
+//           grades = [-10, 10, 30, 50, 70, 90],
+//           labels = [];
   
-      // loop through our density intervals and generate a label with a colored square for each interval
-      for (var i = 0; i < location.coordinates[3]; i++) {
-          div.innerHTML +=
-              '<i style="background:' + getColor(coordinates[3][i] + 1) + '"></i> ' +
-              coordinates[3][i] + (coordinates[3][i + 1] ? '&ndash;' + coordinates[3][i + 1] + '<br>' : '+');
-      }
+//       // loop through our density intervals and generate a label with a colored square for each interval
+//       for (var i = 0; i < location.coordinates[3]; i++) {
+//           div.innerHTML +=
+//               '<i style="background:' + getColor(coordinates[3][i] + 1) + '"></i> ' +
+//               coordinates[3][i] + (coordinates[3][i + 1] ? '&ndash;' + coordinates[3][i + 1] + '<br>' : '+');
+//       }
   
-      return div;
-  };
+//       return div;
+//   };
   
-  legend.addTo(map);
+//   legend.addTo(map);
 
-//LEGEND COLOR
-function getColor(quakeData) {
-  return d.location.coordinates[3] > 1000 ? '#800026' :
-         d > 90  ? '#BD0026' :
-         d > 70  ? '#E31A1C' :
-         d > 50  ? '#FC4E2A' :
-         d > 30   ? '#FD8D3C' :
-         d > 10   ? '#FEB24C' :
-         d > -10   ? '#FED976':
-}
+// //LEGEND COLOR
+// function getColor(quakeData) {
+//   return d.location.coordinates[3] > 1000 ? '#800026' :
+//          d > 90  ? '#BD0026' :
+//          d > 70  ? '#E31A1C' :
+//          d > 50  ? '#FC4E2A' :
+//          d > 30   ? '#FD8D3C' :
+//          d > 10   ? '#FEB24C' :
+//          d > -10   ? '#FED976':
+// }
 
-//magnitude = circle size (radius)
-//depth = circle color (getColor)
+// //magnitude = circle size (radius)
+// //depth = circle color (getColor)
 
-//GEOMARKER
-  var geojsonMarkerOptions = {
-  radius: feature.properties.mag,
-  //how do I loop through and pull out the magnitude and assign a color for the magnitude range?
-  //L.circle([location.coordinates[3]], {
-  //color: "green",
-  //fillColor: "green",
- // fillOpacity: 0.75,
-  //radius: 500
-//}).addTo(myMap);
+// //GEOMARKER
+//   var geojsonMarkerOptions = {
+//   radius: feature.properties.mag,
+//   //how do I loop through and pull out the magnitude and assign a color for the magnitude range?
+//   //L.circle([location.coordinates[3]], {
+//   //color: "green",
+//   //fillColor: "green",
+//  // fillOpacity: 0.75,
+//   //radius: 500
+// //}).addTo(myMap);
 
-  fillColor: "#ff7800",
-  color: "#000",
-  weight: 1,
-  opacity: 1,
-  fillOpacity: 0.8
-};
-
-  
+//   fillColor: "#ff7800",
+//   color: "#000",
+//   weight: 1,
+//   opacity: 1,
+//   fillOpacity: 0.8
+// };
