@@ -64,7 +64,7 @@ function getColor(quakeData) {
          d > 50  ? '#FC4E2A' :
          d > 30   ? '#FD8D3C' :
          d > 10   ? '#FEB24C' :
-         d > -10   ? '#FED976' ;
+         d > -10   ? '#FED976':
 }
 
 //magnitude = circle size (radius)
