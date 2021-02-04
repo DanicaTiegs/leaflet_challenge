@@ -23,67 +23,57 @@ var myMap = L.map("mapid", {
     
     console.log(quakeData);
 
-    //L.geoJson(quakeData).addTo(myMap);
+
+    function getColor(quakeData) {
+      console.log(quakeData)
+      if (quakeData > 110 ) return '#800026'
+       else if  (quakeData > 90  ) return '#BD0026'
+       else if  (quakeData > 70  ) return '#E31A1C' 
+       else if  (quakeData > 50  ) return '#FC4E2A' 
+       else if  (quakeData > 30  ) return '#FD8D3C' 
+       else if  (quakeData > 10  ) return '#FEB24C' 
+       else return '#FED976';
+    }
+  
 
     // // Add popup to each quake point
-    L.geoJson(data, {
+    L.geoJson(quakeData, {
       onEachFeature: function (feature, marker) {
 
-        marker.bindPopup('<h1>'+feature.properties.mag'</h1>''<p>'+feature.properties.place'</p>)');
-      }
+        marker.bindPopup('<h1>Magnitude: '+feature.properties.mag+'</h1><p>Location: '+feature.properties.place+'</p>');
+      },
+        pointToLayer:function(feature, latlong) {
+          return L.circleMarker(latlong)
+        },
+        style: function(feature) {
+          return{
+            fillColor: getColor(feature.geometry.coordinates[2]),
+            fillOpacity: 1,
+            color: 'white',
+            radius: feature.properties.mag*4
+          }
+        }
     }).addTo(myMap);
   
+  //LEGEND
+  var legend = L.control({position: 'bottomright'});
+
+  legend.onAdd = function (myMap) {
+  
+      var div = L.DomUtil.create('div', 'info legend'),
+          grades = [-10, 10, 30, 50, 70, 90, 110],
+          labels = [];
+  
+      // loop through our density intervals and generate a label with a colored square for each interval
+      for (var i = 0; i < grades.length; i++) {
+          div.innerHTML +=
+              '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+              grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+      }
+  
+      return div;
+  };
+  
+  legend.addTo(myMap);
+
   });
-
-//   //LEGEND
-//   var legend = L.control({position: 'bottomright'});
-
-//   legend.onAdd = function (map) {
-  
-//       var div = L.DomUtil.create('div', 'info legend'),
-//           grades = [-10, 10, 30, 50, 70, 90],
-//           labels = [];
-  
-//       // loop through our density intervals and generate a label with a colored square for each interval
-//       for (var i = 0; i < location.coordinates[3]; i++) {
-//           div.innerHTML +=
-//               '<i style="background:' + getColor(coordinates[3][i] + 1) + '"></i> ' +
-//               coordinates[3][i] + (coordinates[3][i + 1] ? '&ndash;' + coordinates[3][i + 1] + '<br>' : '+');
-//       }
-  
-//       return div;
-//   };
-  
-//   legend.addTo(map);
-
-// //LEGEND COLOR
-// function getColor(quakeData) {
-//   return d.location.coordinates[3] > 1000 ? '#800026' :
-//          d > 90  ? '#BD0026' :
-//          d > 70  ? '#E31A1C' :
-//          d > 50  ? '#FC4E2A' :
-//          d > 30   ? '#FD8D3C' :
-//          d > 10   ? '#FEB24C' :
-//          d > -10   ? '#FED976':
-// }
-
-// //magnitude = circle size (radius)
-// //depth = circle color (getColor)
-
-// //GEOMARKER
-//   var geojsonMarkerOptions = {
-//   radius: feature.properties.mag,
-//   //how do I loop through and pull out the magnitude and assign a color for the magnitude range?
-//   //L.circle([location.coordinates[3]], {
-//   //color: "green",
-//   //fillColor: "green",
-//  // fillOpacity: 0.75,
-//   //radius: 500
-// //}).addTo(myMap);
-
-//   fillColor: "#ff7800",
-//   color: "#000",
-//   weight: 1,
-//   opacity: 1,
-//   fillOpacity: 0.8
-// };
